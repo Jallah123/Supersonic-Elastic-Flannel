@@ -1,9 +1,9 @@
-package sidakejphes.nl.avans.edu.wherewasi;
+package sidakejphes.nl.avans.edu.models;
 
 /**
  * Created by Jelle on 11-3-2015.
  */
-public class Series {
+public class Serie {
 
     private int seriesid;
     private String language;
@@ -15,9 +15,11 @@ public class Series {
     private String IMDB_ID;
     private String id;
 
-    public static Series makeSeries(String xml){
-        Series s = new Series();
-        
+    public static Serie makeSeries(String xml){
+        Serie s = new Serie();
+
+
+
         return s;
     }
 

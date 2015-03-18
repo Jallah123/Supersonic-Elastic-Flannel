@@ -11,20 +11,17 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by Jelle on 11-3-2015.
  */
 public class DataProvider {
 
-    private String baseUrl;
+    private final static String baseUrl = "thetvdb.com/api";
 
-    public DataProvider(String url) {
-        setBaseUrl(url);
-    }
-
-    public void doGet(final String path, final IResultHandler handler) {
-
+    public static void doGet(final String path, final IResultHandler handler) throws InterruptedException {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -33,15 +30,16 @@ public class DataProvider {
                     HttpClient client = new DefaultHttpClient();
                     HttpGet request = new HttpGet();
                     request.setURI(uri);
-                    handler.onSuccess(EntityUtils.toString(client.execute(request).getEntity()));
+                    handler.onSuccess(client.execute(request).getEntity().getContent());
                 } catch (Exception e) {
                     handler.onError(e);
                 }
             }
         }).start();
+
     }
 
-    public void doGet(final String path, final ArrayList<NameValuePair> params, final IResultHandler handler) {
+    public static void doGet(final String path, final ArrayList<NameValuePair> params, final IResultHandler handler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -50,19 +48,11 @@ public class DataProvider {
                     HttpClient client = new DefaultHttpClient();
                     HttpGet request = new HttpGet();
                     request.setURI(uri);
-                    handler.onSuccess(EntityUtils.toString(client.execute(request).getEntity()));
+                    handler.onSuccess(client.execute(request).getEntity().getContent());
                 } catch (Exception e) {
                     handler.onError(e);
                 }
             }
         }).start();
-    }
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
     }
 }

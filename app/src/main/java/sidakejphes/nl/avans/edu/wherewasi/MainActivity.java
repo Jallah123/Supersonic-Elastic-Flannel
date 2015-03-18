@@ -4,28 +4,53 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import sidakejphes.nl.avans.edu.adapters.SeriesAdapter;
+import sidakejphes.nl.avans.edu.models.Serie;
+import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 
 
 public class MainActivity extends ActionBarActivity {
-    DataProvider provider = new DataProvider("thetvdb.com/api/");
+    private ArrayList<Serie> series = new ArrayList<Serie>();
+    private SeriesAdapter seriesAdapter = new SeriesAdapter(this);
+    private final static String API_KEY = "983E743A757CA344";
+    private ArrayList<NameValuePair> params;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("seriesname", "Arrow"));
+        params = new ArrayList<NameValuePair>();
 
-        provider.doGet("GetSeries.php", params, new IResultHandler() {
+        //testing
+        params.add(new BasicNameValuePair("seriesname", "a"));
+        ListView lv = (ListView) findViewById(R.id.series);
+        lv.setAdapter(seriesAdapter);
 
+        DataProvider.doGet("GetSeries.php", params, new IResultHandler() {
             @Override
-            public void onSuccess(String result) {
-                Series s = Series.makeSeries(result);
-                System.out.print("hai");
+            public void onSuccess(InputStream result) {
+                try {
+                    series = SeriesParser.parse(result);
+                    seriesAdapter.setSeries(series);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            seriesAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -33,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         });
+        //end test
     }
 
     @Override
