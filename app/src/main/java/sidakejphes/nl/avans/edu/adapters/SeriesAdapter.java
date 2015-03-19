@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,7 +72,7 @@ public class SeriesAdapter extends BaseAdapter {
             viewholder.firstAired = (TextView) convertView.findViewById(R.id.firstAired);
             viewholder.firstAired.setTag(position);
 
-            viewholder.seriesName.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DetailFragment fragment = (DetailFragment) ((Activity) context).getFragmentManager().findFragmentById(R.id.detailFragment);
