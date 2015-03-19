@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Serienaam"
+                android:layout_weight="0.96"
+                android:id="@+id/searchValue"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search"
+                android:onClick="searchSeries"/>
+
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/series"/>
+        android:id="@+id/series"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

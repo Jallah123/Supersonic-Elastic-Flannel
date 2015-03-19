@@ -4,5 +4,6 @@
     <string name="app_name">WhereWasI</string>
     <string name="title_activity_main">Series</string>
     <string name="action_settings">Settings</string>
+    <string name="search">Zoek</string>
 
 </resources>

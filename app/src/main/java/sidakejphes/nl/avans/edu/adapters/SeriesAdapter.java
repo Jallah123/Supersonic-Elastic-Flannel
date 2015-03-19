@@ -71,10 +71,9 @@ public class SeriesAdapter extends BaseAdapter {
             viewholder.firstAired = (TextView) convertView.findViewById(R.id.firstAired);
             viewholder.firstAired.setTag(position);
 
-            viewholder.seriesName.setOnTouchListener(new View.OnTouchListener() {
-
+            viewholder.seriesName.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
+                public void onClick(View v) {
                     DetailFragment fragment = (DetailFragment) ((Activity) context).getFragmentManager().findFragmentById(R.id.detailFragment);
                     if(fragment != null && fragment.isInLayout()){
                         fragment.updateSerie(series.get(position));
@@ -84,10 +83,8 @@ public class SeriesAdapter extends BaseAdapter {
                         intent.putExtra("name", series.get(position).getSeriesName());
                         context.startActivity(intent);
                     }
-                    return false;
                 }
             });
-
             convertView.setTag(viewholder);
         } else {
             viewholder = (ViewHolder) convertView.getTag();

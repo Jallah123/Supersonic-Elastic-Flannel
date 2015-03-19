@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Supersonic Elastic Flannel.iml" filepath="$PROJECT_DIR$/Supersonic Elastic Flannel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Supersonic-Elastic-Flannel.iml" filepath="$PROJECT_DIR$/Supersonic-Elastic-Flannel.iml" />
       <module fileurl="file://$PROJECT_DIR$/WhereWasI.iml" filepath="$PROJECT_DIR$/WhereWasI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
