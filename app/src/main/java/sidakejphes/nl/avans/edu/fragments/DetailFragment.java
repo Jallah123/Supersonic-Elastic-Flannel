@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
-import sidakejphes.nl.avans.edu.services.DownloadService;
 import sidakejphes.nl.avans.edu.wherewasi.DataProvider;
 import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
 import sidakejphes.nl.avans.edu.wherewasi.IResultHandler;
@@ -48,7 +46,6 @@ public class DetailFragment extends Fragment {
     public void onPause(){
         super.onPause();
     }
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v("DetailFragment", "Created fragment");

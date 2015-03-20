@@ -11,17 +11,25 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import sidakejphes.nl.avans.edu.models.Episode;
 import sidakejphes.nl.avans.edu.models.Serie;
 
 public class SeriesHandler extends DefaultHandler {
 
     private ArrayList<Serie> series;
+    private ArrayList<Episode> episodes;
     private String tempVal;
     private Serie tempSerie;
+    private Episode tempEpisode;
     private Boolean episodesBegon = false;
 
     public SeriesHandler() {
         series = new ArrayList<Serie>();
+        episodes = new ArrayList<Episode>();
+    }
+
+    public ArrayList<Episode> getEpisodes() {
+        return episodes;
     }
 
     public ArrayList<Serie> getSeries() {
@@ -37,7 +45,7 @@ public class SeriesHandler extends DefaultHandler {
             // create a new instance of employee
             tempSerie = new Serie();
         } else if (qName.equalsIgnoreCase("episode")) {
-            episodesBegon = true;
+            tempEpisode = new Episode();
         }
     }
 
@@ -50,7 +58,6 @@ public class SeriesHandler extends DefaultHandler {
             throws SAXException {
         if (!episodesBegon) {
             if (qName.equalsIgnoreCase("series")) {
-                // add it to the list
                 series.add(tempSerie);
             } else if (qName.equalsIgnoreCase("seriesid")) {
                 tempSerie.setSeriesid(Integer.parseInt(tempVal));
@@ -72,6 +79,28 @@ public class SeriesHandler extends DefaultHandler {
                 tempSerie.setId(tempVal);
             } else if (qName.equalsIgnoreCase("rating")) {
                 tempSerie.setRating(Float.parseFloat(tempVal));
+            }
+        } else {
+            if (qName.equalsIgnoreCase("episode")) {
+                episodes.add(tempEpisode);
+            } else if (qName.equalsIgnoreCase("id")) {
+                tempEpisode.setId(Integer.parseInt(tempVal));
+            } else if (qName.equalsIgnoreCase("episodename")) {
+                tempEpisode.setName(tempVal);
+            } else if (qName.equalsIgnoreCase("episodenumber")) {
+                tempEpisode.setNumber(Integer.parseInt(tempVal));
+            } else if (qName.equalsIgnoreCase("firstaired")) {
+                tempEpisode.setFirstAired(tempVal);
+            } else if (qName.equalsIgnoreCase("overview")) {
+                tempEpisode.setOverview(tempVal);
+            } else if (qName.equalsIgnoreCase("rating")) {
+                tempEpisode.setRating(Float.parseFloat(tempVal));
+            } else if (qName.equalsIgnoreCase("lastupdated")) {
+                tempEpisode.setLastUpdated(tempVal);
+            } else if (qName.equalsIgnoreCase("seasonid")) {
+                tempEpisode.setSeasonId(Integer.parseInt(tempVal));
+            } else if (qName.equalsIgnoreCase("seriesid")) {
+                tempEpisode.setSeriesId(Integer.parseInt(tempVal));
             }
         }
     }
