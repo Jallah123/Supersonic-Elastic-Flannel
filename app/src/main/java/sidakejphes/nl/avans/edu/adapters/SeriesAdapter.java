@@ -92,7 +92,7 @@ public class SeriesAdapter extends BaseAdapter {
             viewholder = (ViewHolder) convertView.getTag();
         }
 
-        Serie serie= series.get(position);
+        Serie serie = series.get(position);
         if(series != null) {
             viewholder.seriesName.setText(serie.getSeriesName());
             viewholder.firstAired.setText(serie.getFirstAired());

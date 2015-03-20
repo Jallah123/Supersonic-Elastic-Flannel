@@ -12,12 +12,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import sidakejphes.nl.avans.edu.models.Episode;
+import sidakejphes.nl.avans.edu.models.Season;
 import sidakejphes.nl.avans.edu.models.Serie;
 
 public class SeriesHandler extends DefaultHandler {
 
     private ArrayList<Serie> series;
-    private ArrayList<Episode> episodes;
     private String tempVal;
     private Serie tempSerie;
     private Episode tempEpisode;
@@ -25,11 +25,6 @@ public class SeriesHandler extends DefaultHandler {
 
     public SeriesHandler() {
         series = new ArrayList<Serie>();
-        episodes = new ArrayList<Episode>();
-    }
-
-    public ArrayList<Episode> getEpisodes() {
-        return episodes;
     }
 
     public ArrayList<Serie> getSeries() {
@@ -46,6 +41,7 @@ public class SeriesHandler extends DefaultHandler {
             tempSerie = new Serie();
         } else if (qName.equalsIgnoreCase("episode")) {
             tempEpisode = new Episode();
+            episodesBegon = true;
         }
     }
 
@@ -60,7 +56,7 @@ public class SeriesHandler extends DefaultHandler {
             if (qName.equalsIgnoreCase("series")) {
                 series.add(tempSerie);
             } else if (qName.equalsIgnoreCase("seriesid")) {
-                tempSerie.setSeriesid(Integer.parseInt(tempVal));
+                tempSerie.setSeriesid(tempVal);
             } else if (qName.equalsIgnoreCase("SeriesName")) {
                 tempSerie.setSeriesName(tempVal);
             } else if (qName.equalsIgnoreCase("language")) {
@@ -79,10 +75,13 @@ public class SeriesHandler extends DefaultHandler {
                 tempSerie.setId(tempVal);
             } else if (qName.equalsIgnoreCase("rating")) {
                 tempSerie.setRating(Float.parseFloat(tempVal));
+            } else if(qName.equalsIgnoreCase("status")) {
+                tempSerie.setStatus(tempVal);
             }
         } else {
             if (qName.equalsIgnoreCase("episode")) {
-                episodes.add(tempEpisode);
+            } else if (tempVal == "") {
+                return;
             } else if (qName.equalsIgnoreCase("id")) {
                 tempEpisode.setId(Integer.parseInt(tempVal));
             } else if (qName.equalsIgnoreCase("episodename")) {
@@ -101,6 +100,26 @@ public class SeriesHandler extends DefaultHandler {
                 tempEpisode.setSeasonId(Integer.parseInt(tempVal));
             } else if (qName.equalsIgnoreCase("seriesid")) {
                 tempEpisode.setSeriesId(Integer.parseInt(tempVal));
+            } else if (qName.equalsIgnoreCase("seasonnumber")){
+                if(series.get(0).getSeasons().isEmpty()) {
+                    Season s = new Season();
+                    s.setNumber(Integer.parseInt(tempVal));
+                    series.get(0).getSeasons().add(s);
+                }
+                Boolean seasonExists = false;
+                for(Season s : series.get(0).getSeasons()) {
+                    if(s.getNumber() == Integer.parseInt(tempVal)) {
+                        s.getEpisodes().add(tempEpisode);
+                        seasonExists = true;
+                    }
+                }
+
+                if(!seasonExists) {
+                    Season s = new Season();
+                    s.setNumber(Integer.parseInt(tempVal));
+                    series.get(0).getSeasons().add(s);
+                    s.getEpisodes().add(tempEpisode);
+                }
             }
         }
     }

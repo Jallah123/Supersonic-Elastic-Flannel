@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -17,10 +18,12 @@ import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import sidakejphes.nl.avans.edu.models.Season;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 import sidakejphes.nl.avans.edu.wherewasi.DataProvider;
@@ -59,7 +62,31 @@ public class DetailFragment extends Fragment {
                 @Override
                 public void onSuccess(InputStream result) {
                     ArrayList<Serie> series = SeriesParser.parse(result);
-                    series = series;
+                    if(series.size() != 1)
+                        return;
+                    final Serie serie = series.get(0);
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView amountOfSeasons = (TextView) getView().findViewById(R.id.seasons_amount);
+                            amountOfSeasons.setText("Amount of seasons : " + String.valueOf(serie.getSeasons().size()));
+                            TextView amountOfEpisodes = (TextView) getView().findViewById(R.id.episodes_amount);
+                            int amount = 0;
+                            for(Season s : serie.getSeasons()){
+                                amount += s.getEpisodes().size();
+                            }
+                            amountOfEpisodes.setText("Total episodes : " + amount);
+                            TextView releaseDate = (TextView) getView().findViewById(R.id.release_date);
+                            releaseDate.setText("First aired : " + serie.getFirstAired());
+                            TextView overview = (TextView) getView().findViewById(R.id.overview);
+                            overview.setText("Summary : " + serie.getOverview());
+                            TextView rating = (TextView) getView().findViewById(R.id.rating);
+                            rating.setText("Rating : " + serie.getRating() + "/10");
+                            TextView status = (TextView) getView().findViewById(R.id.status);
+                            status.setText("Status : " + serie.getStatus());
+                        }
+                    });
                 }
 
                 @Override
@@ -67,5 +94,20 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             });
+    }
+
+    public void clearView(){
+        TextView t = (TextView) getView().findViewById(R.id.seasons_amount);
+        t.setText("");
+        t = (TextView) getView().findViewById(R.id.episodes_amount);
+        t.setText("");
+        t = (TextView) getView().findViewById(R.id.release_date);
+        t.setText("");
+        t = (TextView) getView().findViewById(R.id.overview);
+        t.setText("");
+        t = (TextView) getView().findViewById(R.id.rating);
+        t.setText("");
+        t = (TextView) getView().findViewById(R.id.status);
+        t.setText("");
     }
 }
