@@ -1,11 +1,13 @@
 package sidakejphes.nl.avans.edu.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jelle on 11-3-2015.
  */
 public class Serie {
 
-    private int seriesid;
+    private String seriesid;
     private String language;
     private String SeriesName;
     private String banner;
@@ -14,20 +16,31 @@ public class Serie {
     private String Network;
     private String IMDB_ID;
     private String id;
+    private Float rating;
+    private ArrayList<Season> seasons = new ArrayList<Season>();
+    private String status;
 
-    public static Serie makeSeries(String xml){
-        Serie s = new Serie();
-
-
-
-        return s;
+    public ArrayList<Season> getSeasons() {
+        return seasons;
     }
 
-    public int getSeriesid() {
+    public void setSeasons(ArrayList<Season> seasons) {
+        this.seasons = seasons;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public String getSeriesid() {
         return seriesid;
     }
 
-    public void setSeriesid(int seriesid) {
+    public void setSeriesid(String seriesid) {
         this.seriesid = seriesid;
     }
 
@@ -93,5 +106,13 @@ public class Serie {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

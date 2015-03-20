@@ -20,9 +20,9 @@ import java.util.logging.LogRecord;
 public class DataProvider {
 
     private final static String baseUrl = "thetvdb.com/api";
-    private final static String API_KEY = "983E743A757CA344";
+    public final static String API_KEY = "983E743A757CA344";
 
-    public static void doGet(final String path, final IResultHandler handler) throws InterruptedException {
+    public static void doGet(final String path, final IResultHandler handler) {
         new Thread(new Runnable() {
             @Override
             public void run() {

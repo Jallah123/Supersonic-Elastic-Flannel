@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -91,7 +92,7 @@ public class SeriesAdapter extends BaseAdapter {
             viewholder = (ViewHolder) convertView.getTag();
         }
 
-        Serie serie= series.get(position);
+        Serie serie = series.get(position);
         if(series != null) {
             viewholder.seriesName.setText(serie.getSeriesName());
             viewholder.firstAired.setText(serie.getFirstAired());

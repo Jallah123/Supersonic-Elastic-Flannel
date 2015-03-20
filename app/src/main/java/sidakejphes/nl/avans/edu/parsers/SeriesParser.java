@@ -30,6 +30,7 @@ public class SeriesParser {
             series = saxHandler.getSeries();
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             Log.d("XML", "SAXXMLParser: parse() failed");
         }
 
