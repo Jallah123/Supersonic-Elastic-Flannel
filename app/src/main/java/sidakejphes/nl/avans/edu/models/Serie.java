@@ -14,6 +14,7 @@ public class Serie {
     private String Network;
     private String IMDB_ID;
     private String id;
+    private Float rating;
 
     public static Serie makeSeries(String xml){
         Serie s = new Serie();
@@ -21,6 +22,14 @@ public class Serie {
 
 
         return s;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
     public int getSeriesid() {
