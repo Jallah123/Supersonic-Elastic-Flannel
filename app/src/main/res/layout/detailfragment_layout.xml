@@ -42,5 +42,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/status"
         android:textSize="24sp"/>
+    <Button android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Save" android:id="@+id/saveSerie" android:onClick="saveSerie"
+        />
 </LinearLayout>
 </ScrollView>

@@ -6,20 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import sidakejphes.nl.avans.edu.adapters.SeriesAdapter;
-import sidakejphes.nl.avans.edu.models.Serie;
-import sidakejphes.nl.avans.edu.parsers.SeriesParser;
-import sidakejphes.nl.avans.edu.wherewasi.DataProvider;
-import sidakejphes.nl.avans.edu.wherewasi.IResultHandler;
 import sidakejphes.nl.avans.edu.wherewasi.R;
 
 /**

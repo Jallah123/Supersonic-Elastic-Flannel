@@ -1,24 +1,12 @@
 package sidakejphes.nl.avans.edu.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,16 +15,13 @@ import sidakejphes.nl.avans.edu.models.Season;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 import sidakejphes.nl.avans.edu.wherewasi.DataProvider;
-import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
 import sidakejphes.nl.avans.edu.wherewasi.IResultHandler;
-import sidakejphes.nl.avans.edu.wherewasi.MainActivity;
 import sidakejphes.nl.avans.edu.wherewasi.R;
 
 /**
  * Created by Jelle on 18-3-2015.
  */
 public class DetailFragment extends Fragment {
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,37 +39,37 @@ public class DetailFragment extends Fragment {
         Log.v("DetailFragment", "Created fragment");
         return inflater.inflate(R.layout.detailfragment_layout, container, false);
     }
-    public void updateSerie(Serie serie) {
+    public Serie updateSerie(Serie serie) {
         TextView t = (TextView) getView().findViewById(R.id.detail_seriesName);
         t.setText(serie.getSeriesName());
 
             DataProvider.doGet(DataProvider.API_KEY + "/series/" + serie.getSeriesid() + "/all", new IResultHandler() {
                 @Override
                 public void onSuccess(InputStream result) {
-                    ArrayList<Serie> series = SeriesParser.parse(result);
+                   final ArrayList<Serie> series = SeriesParser.parse(result);
                     if(series.size() != 1)
                         return;
-                    final Serie serie = series.get(0);
+                    final Serie tempSerie = series.get(0);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             TextView amountOfSeasons = (TextView) getView().findViewById(R.id.seasons_amount);
-                            amountOfSeasons.setText("Amount of seasons : " + String.valueOf(serie.getSeasons().size()));
+                            amountOfSeasons.setText("Amount of seasons : " + String.valueOf(tempSerie.getSeasons().size()));
                             TextView amountOfEpisodes = (TextView) getView().findViewById(R.id.episodes_amount);
                             int amount = 0;
-                            for(Season s : serie.getSeasons()){
+                            for(Season s : tempSerie.getSeasons()){
                                 amount += s.getEpisodes().size();
                             }
                             amountOfEpisodes.setText("Total episodes : " + amount);
                             TextView releaseDate = (TextView) getView().findViewById(R.id.release_date);
-                            releaseDate.setText("First aired : " + serie.getFirstAired());
+                            releaseDate.setText("First aired : " + tempSerie.getFirstAired());
                             TextView overview = (TextView) getView().findViewById(R.id.overview);
-                            overview.setText("Summary : " + serie.getOverview());
+                            overview.setText("Summary : " + tempSerie.getOverview());
                             TextView rating = (TextView) getView().findViewById(R.id.rating);
-                            rating.setText("Rating : " + serie.getRating() + "/10");
+                            rating.setText("Rating : " + tempSerie.getRating() + "/10");
                             TextView status = (TextView) getView().findViewById(R.id.status);
-                            status.setText("Status : " + serie.getStatus());
+                            status.setText("Status : " + tempSerie.getStatus());
                         }
                     });
                 }
@@ -94,6 +79,8 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             });
+        //TODO need to return tempSerie
+        return serie;
     }
 
     public void clearView(){
