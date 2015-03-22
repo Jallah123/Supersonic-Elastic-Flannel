@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -24,7 +25,6 @@ import sidakejphes.nl.avans.edu.models.Serie;
  */
 public class DetailActivity extends Activity {
 
-    private Serie serie;
     private Gson g = new Gson();
     private SharedPreferences prefs;
 
@@ -44,25 +44,49 @@ public class DetailActivity extends Activity {
         Serie s = new Serie();
         s.setSeriesid(getIntent().getExtras().getString("id"));
         s.setSeriesName(getIntent().getExtras().getString("name"));
-        serie = df.updateSerie(s);
+        df.updateSerie(s);
     }
 
     public void saveSerie(View v) {
         //set stringset
-        Set<String> series =  prefs.getStringSet("series", null);
-        if(series == null){
+        Set<String> series = prefs.getStringSet("series", null);
+        if (series == null) {
             series = new HashSet<String>();
         }
-        series.add(g.toJson(serie));
+        String currentSerie = prefs.getString("currentSerie", "");
+        if (!currentSerie.equals("")) {
+            series.add(prefs.getString("currentSerie", ""));
+        }
         prefs.edit().putStringSet("series", series).commit();
-
+        CharSequence text = "Serie saved.";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        toast.show();
         //get & read stringset (move code to proper place)
         Set<String> set = prefs.getStringSet("series", null);
-        if(set != null) {
+        if (set != null) {
             for (String s : set) {
                 Serie serie = g.fromJson(s, Serie.class);
-                serie = serie;
             }
         }
+    }
+
+    public void deleteSerie(View v) {
+        Set<String> series = prefs.getStringSet("series", null);
+        String currentSerie = prefs.getString("currentSerie", "");
+
+        if (!currentSerie.equals("")) {
+            for (String s : series) {
+            //TODO remove doesnt work?, s never equals currentSerie
+                if (s.equals(currentSerie)) {
+                    series.remove(s);
+                }
+            }
+        }
+        prefs.edit().putStringSet("series", series).commit();
+        CharSequence text = "Serie removed.";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        toast.show();
     }
 }

@@ -1,12 +1,15 @@
 package sidakejphes.nl.avans.edu.fragments;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,68 +25,75 @@ import sidakejphes.nl.avans.edu.wherewasi.R;
  * Created by Jelle on 18-3-2015.
  */
 public class DetailFragment extends Fragment {
+
+    private SharedPreferences prefs;
+    private Gson g = new Gson();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getActivity().getPreferences(getActivity().getApplicationContext().MODE_PRIVATE);
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v("DetailFragment", "Created fragment");
         return inflater.inflate(R.layout.detailfragment_layout, container, false);
     }
-    public Serie updateSerie(Serie serie) {
+
+    public void updateSerie(Serie serie) {
         TextView t = (TextView) getView().findViewById(R.id.detail_seriesName);
         t.setText(serie.getSeriesName());
 
-            DataProvider.doGet(DataProvider.API_KEY + "/series/" + serie.getSeriesid() + "/all", new IResultHandler() {
-                @Override
-                public void onSuccess(InputStream result) {
-                   final ArrayList<Serie> series = SeriesParser.parse(result);
-                    if(series.size() != 1)
-                        return;
-                    final Serie tempSerie = series.get(0);
+        DataProvider.doGet(DataProvider.API_KEY + "/series/" + serie.getSeriesid() + "/all", new IResultHandler() {
+            @Override
+            public void onSuccess(InputStream result) {
+                final ArrayList<Serie> series = SeriesParser.parse(result);
+                if (series.size() != 1)
+                    return;
+                final Serie tempSerie = series.get(0);
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TextView amountOfSeasons = (TextView) getView().findViewById(R.id.seasons_amount);
-                            amountOfSeasons.setText("Amount of seasons : " + String.valueOf(tempSerie.getSeasons().size()));
-                            TextView amountOfEpisodes = (TextView) getView().findViewById(R.id.episodes_amount);
-                            int amount = 0;
-                            for(Season s : tempSerie.getSeasons()){
-                                amount += s.getEpisodes().size();
-                            }
-                            amountOfEpisodes.setText("Total episodes : " + amount);
-                            TextView releaseDate = (TextView) getView().findViewById(R.id.release_date);
-                            releaseDate.setText("First aired : " + tempSerie.getFirstAired());
-                            TextView overview = (TextView) getView().findViewById(R.id.overview);
-                            overview.setText("Summary : " + tempSerie.getOverview());
-                            TextView rating = (TextView) getView().findViewById(R.id.rating);
-                            rating.setText("Rating : " + tempSerie.getRating() + "/10");
-                            TextView status = (TextView) getView().findViewById(R.id.status);
-                            status.setText("Status : " + tempSerie.getStatus());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView amountOfSeasons = (TextView) getView().findViewById(R.id.seasons_amount);
+                        amountOfSeasons.setText("Amount of seasons : " + String.valueOf(tempSerie.getSeasons().size()));
+                        TextView amountOfEpisodes = (TextView) getView().findViewById(R.id.episodes_amount);
+                        int amount = 0;
+                        for (Season s : tempSerie.getSeasons()) {
+                            amount += s.getEpisodes().size();
                         }
-                    });
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        //TODO need to return tempSerie
-        return serie;
+                        amountOfEpisodes.setText("Total episodes : " + amount);
+                        TextView releaseDate = (TextView) getView().findViewById(R.id.release_date);
+                        releaseDate.setText("First aired : " + tempSerie.getFirstAired());
+                        TextView overview = (TextView) getView().findViewById(R.id.overview);
+                        overview.setText("Summary : " + tempSerie.getOverview());
+                        TextView rating = (TextView) getView().findViewById(R.id.rating);
+                        rating.setText("Rating : " + tempSerie.getRating() + "/10");
+                        TextView status = (TextView) getView().findViewById(R.id.status);
+                        status.setText("Status : " + tempSerie.getStatus());
+                        prefs.edit().putString("currentSerie", g.toJson(tempSerie)).commit();
+                    }
+                });
+            }
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    public void clearView(){
+    public void clearView() {
         TextView t = (TextView) getView().findViewById(R.id.seasons_amount);
         t.setText("");
         t = (TextView) getView().findViewById(R.id.episodes_amount);
