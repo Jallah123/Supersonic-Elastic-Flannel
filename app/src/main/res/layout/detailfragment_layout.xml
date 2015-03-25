@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/status"
         android:textSize="24sp"/>
-    <Button android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Save" android:id="@+id/saveSerie" android:onClick="saveSerie"
+    <Button android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Save" android:id="@+id/saveSerie" android:onClick="saveSerie" android:visibility="invisible"
         />
-    <Button android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Delete" android:id="@+id/deleteSerie" android:onClick="deleteSerie"        />
+    <Button android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Delete" android:id="@+id/deleteSerie" android:onClick="deleteSerie"   android:visibility="invisible"     />
 </LinearLayout>
 </ScrollView>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -83,14 +84,20 @@ public class DetailFragment extends Fragment {
                         TextView status = (TextView) getView().findViewById(R.id.status);
                         status.setText("Status : " + tempSerie.getStatus());
                         prefs.edit().putString("currentSerie", g.toJson(tempSerie)).commit();
+                        getActivity().findViewById(R.id.saveSerie).setVisibility(View.VISIBLE);
+                        getActivity().findViewById(R.id.deleteSerie).setVisibility(View.VISIBLE);
                     }
                 });
+
             }
+
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();
             }
+
         });
+
     }
 
     public void clearView() {

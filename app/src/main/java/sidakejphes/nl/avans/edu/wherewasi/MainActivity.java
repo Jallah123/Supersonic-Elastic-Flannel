@@ -1,5 +1,8 @@
 package sidakejphes.nl.avans.edu.wherewasi;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +18,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import sidakejphes.nl.avans.edu.adapters.SeriesAdapter;
+import sidakejphes.nl.avans.edu.fragments.ListViewFragment;
+import sidakejphes.nl.avans.edu.fragments.TrackFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 
@@ -22,6 +27,7 @@ import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 public class MainActivity extends ActionBarActivity {
     private ArrayList<Serie> series = new ArrayList<Serie>();
     private SeriesAdapter seriesAdapter = new SeriesAdapter(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,33 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void searchSeries(View v){
+
+    public void showSearch(View v) {
+        FragmentManager fm = getFragmentManager();
+        if (fm.findFragmentById(R.id.contentFragment) == null) {
+            Fragment listView = new ListViewFragment();
+            String tag = listView.getTag();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.contentFragment, listView, tag);
+            transaction.addToBackStack(tag);
+            transaction.commit();
+        }
+    }
+
+    public void showTrack(View v) {
+        FragmentManager fm = getFragmentManager();
+        if (fm.findFragmentById(R.id.trackFragment) == null) {
+            Fragment trackFragment = new TrackFragment();
+            String tag = trackFragment.getTag();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.contentFragment, trackFragment, tag);
+            transaction.addToBackStack(tag);
+            transaction.commit();
+        }
+
+    }
+
+    public void searchSeries(View v) {
         EditText search = (EditText) findViewById(R.id.searchValue);
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("seriesname", search.getText().toString()));
@@ -71,6 +103,7 @@ public class MainActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();

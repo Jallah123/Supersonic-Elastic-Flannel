@@ -2,10 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Search"
+            android:gravity="center"
+            android:clickable="true"
+            android:textColor="#ff000000"
+            android:textSize="26dp"
+            android:editable="false"
+            android:onClick="showSearch"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Track"
+            android:gravity="center"
+            android:textColor="#ff000000"
+            android:textSize="26dp"
+            android:editable="false"
+            android:onClick="showTrack"/>
+    </LinearLayout>
     <fragment
-        android:id="@+id/listviewFragment"
+        android:id="@+id/contentFragment"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_weight="1"
         class="sidakejphes.nl.avans.edu.fragments.ListViewFragment"/>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="sidakejphes.nl.avans.edu.fragments.TrackFragment"
+        android:id="@+id/trackFragment"
+        android:visibility="invisible"/>
 </LinearLayout>
