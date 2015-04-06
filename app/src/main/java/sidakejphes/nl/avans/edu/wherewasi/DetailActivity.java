@@ -31,7 +31,7 @@ public class DetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getPreferences(MODE_PRIVATE);
+        prefs = getSharedPreferences("series", MODE_PRIVATE);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //TODO pass information
             finish();
@@ -62,13 +62,6 @@ public class DetailActivity extends Activity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
-        //get & read stringset (move code to proper place)
-        Set<String> set = prefs.getStringSet("series", null);
-        if (set != null) {
-            for (String s : set) {
-                Serie serie = g.fromJson(s, Serie.class);
-            }
-        }
     }
 
     public void deleteSerie(View v) {
@@ -77,7 +70,6 @@ public class DetailActivity extends Activity {
 
         if (!currentSerie.equals("")) {
             for (String s : series) {
-            //TODO remove doesnt work?, s never equals currentSerie
                 if (s.equals(currentSerie)) {
                     series.remove(s);
                 }

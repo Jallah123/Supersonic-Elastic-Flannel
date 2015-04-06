@@ -18,7 +18,6 @@ public class ListViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //add adapter too listview
-
     }
 
     @Nullable

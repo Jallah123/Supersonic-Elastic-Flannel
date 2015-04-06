@@ -4,6 +4,8 @@ package sidakejphes.nl.avans.edu.parsers;
  * Created by Jelle on 18-3-2015.
  */
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
@@ -52,7 +54,9 @@ public class SeriesHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
         if (!episodesBegon) {
-            if (qName.equalsIgnoreCase("series")) {
+            if (tempVal == "" || tempVal == null) {
+                return;
+            } else if (qName.equalsIgnoreCase("series")) {
                 series.add(tempSerie);
             } else if (qName.equalsIgnoreCase("seriesid")) {
                 tempSerie.setSeriesid(tempVal);
@@ -74,12 +78,12 @@ public class SeriesHandler extends DefaultHandler {
                 tempSerie.setId(tempVal);
             } else if (qName.equalsIgnoreCase("rating")) {
                 tempSerie.setRating(Float.parseFloat(tempVal));
-            } else if(qName.equalsIgnoreCase("status")) {
+            } else if (qName.equalsIgnoreCase("status")) {
                 tempSerie.setStatus(tempVal);
             }
         } else {
             if (qName.equalsIgnoreCase("episode")) {
-            } else if (tempVal == "") {
+            } else if (tempVal == "" || tempVal == null) {
                 return;
             } else if (qName.equalsIgnoreCase("id")) {
                 tempEpisode.setId(Integer.parseInt(tempVal));
@@ -99,21 +103,20 @@ public class SeriesHandler extends DefaultHandler {
                 tempEpisode.setSeasonId(Integer.parseInt(tempVal));
             } else if (qName.equalsIgnoreCase("seriesid")) {
                 tempEpisode.setSeriesId(Integer.parseInt(tempVal));
-            } else if (qName.equalsIgnoreCase("seasonnumber")){
-                if(series.get(0).getSeasons().isEmpty()) {
+            } else if (qName.equalsIgnoreCase("seasonnumber")) {
+                if (series.get(0).getSeasons().isEmpty()) {
                     Season s = new Season();
                     s.setNumber(Integer.parseInt(tempVal));
                     series.get(0).getSeasons().add(s);
                 }
                 Boolean seasonExists = false;
-                for(Season s : series.get(0).getSeasons()) {
-                    if(s.getNumber() == Integer.parseInt(tempVal)) {
+                for (Season s : series.get(0).getSeasons()) {
+                    if (s.getNumber() == Integer.parseInt(tempVal)) {
                         s.getEpisodes().add(tempEpisode);
                         seasonExists = true;
                     }
                 }
-
-                if(!seasonExists) {
+                if (!seasonExists) {
                     Season s = new Season();
                     s.setNumber(Integer.parseInt(tempVal));
                     series.get(0).getSeasons().add(s);

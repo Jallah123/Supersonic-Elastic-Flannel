@@ -33,7 +33,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getActivity().getPreferences(getActivity().getApplicationContext().MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("series", getActivity().getApplicationContext().MODE_PRIVATE);
     }
 
     @Override

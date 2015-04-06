@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/seriesName"
         android:textSize="24sp"
-        android:text="Arrow"
         android:paddingLeft="5dp"
         android:focusable="false"/>
     <TextView
@@ -16,7 +15,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/firstAired"
         android:textSize="14sp"
-        android:text="01/01/2014"
         android:layout_below="@+id/seriesName"
         android:layout_alignParentStart="true"
         android:paddingLeft="5dp"

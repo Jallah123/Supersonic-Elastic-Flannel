@@ -1,13 +1,17 @@
 package sidakejphes.nl.avans.edu.wherewasi;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.Activity;
+import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -17,23 +21,36 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import sidakejphes.nl.avans.edu.adapters.AbstractSeriesAdapter;
 import sidakejphes.nl.avans.edu.adapters.SeriesAdapter;
-import sidakejphes.nl.avans.edu.fragments.ListViewFragment;
-import sidakejphes.nl.avans.edu.fragments.TrackFragment;
+import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements SensorEventListener {
     private ArrayList<Serie> series = new ArrayList<Serie>();
     private SeriesAdapter seriesAdapter = new SeriesAdapter(this);
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private float mAccel; // acceleration apart from gravity
+    private float mAccelCurrent; // current acceleration including gravity
+    private float mAccelLast; // last acceleration including gravity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this,
+                accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
         setContentView(R.layout.activity_main);
         ListView lv = (ListView) findViewById(R.id.series);
         lv.setAdapter(seriesAdapter);
+        setTitle("Search Series");
     }
 
     @Override
@@ -58,31 +75,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showSearch(View v) {
-        FragmentManager fm = getFragmentManager();
-        if (fm.findFragmentById(R.id.contentFragment) == null) {
-            Fragment listView = new ListViewFragment();
-            String tag = listView.getTag();
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.contentFragment, listView, tag);
-            transaction.addToBackStack(tag);
-            transaction.commit();
-        }
-    }
-
-    public void showTrack(View v) {
-        FragmentManager fm = getFragmentManager();
-        if (fm.findFragmentById(R.id.trackFragment) == null) {
-            Fragment trackFragment = new TrackFragment();
-            String tag = trackFragment.getTag();
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.contentFragment, trackFragment, tag);
-            transaction.addToBackStack(tag);
-            transaction.commit();
-        }
-
-    }
-
     public void searchSeries(View v) {
         EditText search = (EditText) findViewById(R.id.searchValue);
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -91,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onSuccess(InputStream result) {
                 try {
-                    ArrayList<Serie> series = SeriesParser.parse(result);
+                    series = SeriesParser.parse(result);
                     seriesAdapter.setSeries(series);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -109,5 +101,26 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+        mAccelLast = mAccelCurrent;
+        mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+        float delta = mAccelCurrent - mAccelLast;
+        mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+
+        if (mAccel > 12) {
+            Intent intent = new Intent(this, TrackedActivity.class);
+            this.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

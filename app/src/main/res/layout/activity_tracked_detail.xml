@@ -4,10 +4,9 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/contentFragment"
-        android:layout_height="match_parent"
+        android:id="@+id/trackedDetailFragment"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        class="sidakejphes.nl.avans.edu.fragments.ListViewFragment"/>
+        android:layout_height="match_parent"
+        class="sidakejphes.nl.avans.edu.fragments.TrackedDetailFragment" />
 
 </LinearLayout>

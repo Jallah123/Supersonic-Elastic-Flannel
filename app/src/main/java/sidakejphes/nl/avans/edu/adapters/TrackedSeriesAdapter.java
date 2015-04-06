@@ -8,31 +8,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import sidakejphes.nl.avans.edu.fragments.DetailFragment;
+import sidakejphes.nl.avans.edu.fragments.TrackedDetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
 import sidakejphes.nl.avans.edu.wherewasi.R;
+import sidakejphes.nl.avans.edu.wherewasi.TrackedDetailActivity;
 
 /**
  * Created by Jelle on 06-Apr-15.
  */
-public class SeriesAdapter extends AbstractSeriesAdapter {
+public class TrackedSeriesAdapter extends AbstractSeriesAdapter {
 
-    public SeriesAdapter(Context context) {
+    private static TrackedSeriesAdapter instance;
+
+    private TrackedSeriesAdapter(Context context) {
         super(context);
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewholder;
+        AbstractSeriesAdapter.ViewHolder viewholder;
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.series_layout, parent, false);
 
-            viewholder = new ViewHolder();
+            viewholder = new AbstractSeriesAdapter.ViewHolder();
             viewholder.seriesName = (TextView) convertView.findViewById(R.id.seriesName);
             viewholder.seriesName.setTag(position);
             viewholder.firstAired = (TextView) convertView.findViewById(R.id.firstAired);
@@ -40,19 +41,17 @@ public class SeriesAdapter extends AbstractSeriesAdapter {
 
             convertView.setTag(viewholder);
         } else {
-            viewholder = (ViewHolder) convertView.getTag();
+            viewholder = (AbstractSeriesAdapter.ViewHolder) convertView.getTag();
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Serie> series = getSeries();
-                DetailFragment fragment = (DetailFragment) ((Activity) getContext()).getFragmentManager().findFragmentById(R.id.detailFragment);
+                TrackedDetailFragment fragment = (TrackedDetailFragment) ((Activity) getContext()).getFragmentManager().findFragmentById(R.id.trackedDetailFragment);
                 if (fragment != null && fragment.isInLayout()) {
                     fragment.updateSerie(getSeries().get(position));
                 } else {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    Intent intent = new Intent(getContext(), TrackedDetailActivity.class);
                     intent.putExtra("id", getSeries().get(position).getSeriesid());
-                    intent.putExtra("name", getSeries().get(position).getSeriesName());
                     getContext().startActivity(intent);
                 }
             }
@@ -63,5 +62,12 @@ public class SeriesAdapter extends AbstractSeriesAdapter {
             viewholder.firstAired.setText(serie.getFirstAired());
         }
         return convertView;
+    }
+
+    public static TrackedSeriesAdapter getInstance(Context context) {
+        if (instance == null) {
+            instance = new TrackedSeriesAdapter(context);
+        }
+        return instance;
     }
 }
