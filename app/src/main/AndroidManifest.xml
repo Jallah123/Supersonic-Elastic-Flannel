@@ -13,11 +13,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".DetailActivity"
@@ -29,6 +24,15 @@
         <activity
             android:name=".TrackedDetailActivity"
             android:label="@string/title_activity_tracked_detail" >
+        </activity>
+        <activity
+            android:name=".Splashscreen"
+            android:label="@string/title_activity_splashscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
