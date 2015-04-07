@@ -1,6 +1,7 @@
 package sidakejphes.nl.avans.edu.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,7 +56,10 @@ public class DetailFragment extends Fragment {
     public void updateSerie(Serie serie) {
         TextView t = (TextView) getView().findViewById(R.id.detail_seriesName);
         t.setText(serie.getSeriesName());
-
+        final ProgressDialog progress = new ProgressDialog(getActivity());
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.show();
         DataProvider.doGet(DataProvider.API_KEY + "/series/" + serie.getSeriesid() + "/all", new IResultHandler() {
             @Override
             public void onSuccess(InputStream result) {
@@ -88,7 +92,7 @@ public class DetailFragment extends Fragment {
                         getActivity().findViewById(R.id.deleteSerie).setVisibility(View.VISIBLE);
                     }
                 });
-
+                progress.dismiss();
             }
 
             @Override

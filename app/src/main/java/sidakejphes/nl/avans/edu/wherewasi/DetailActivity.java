@@ -25,7 +25,6 @@ import sidakejphes.nl.avans.edu.models.Serie;
  */
 public class DetailActivity extends Activity {
 
-    private Gson g = new Gson();
     private SharedPreferences prefs;
 
     @Override

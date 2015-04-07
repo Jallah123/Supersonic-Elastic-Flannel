@@ -1,6 +1,7 @@
 package sidakejphes.nl.avans.edu.wherewasi;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -79,6 +80,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         EditText search = (EditText) findViewById(R.id.searchValue);
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("seriesname", search.getText().toString()));
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.show();
         DataProvider.doGet("GetSeries.php", params, new IResultHandler() {
             @Override
             public void onSuccess(InputStream result) {
@@ -91,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
                             seriesAdapter.notifyDataSetChanged();
                         }
                     });
+                    progress.dismiss();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
