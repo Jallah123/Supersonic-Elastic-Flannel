@@ -10,9 +10,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.net.URI;
 import java.util.ArrayList;
 
-/**
- * Created by Jelle on 11-3-2015.
- */
 public class DataProvider {
 
     private final static String baseUrl = "thetvdb.com/api";

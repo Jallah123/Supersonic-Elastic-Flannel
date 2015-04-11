@@ -7,17 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
 import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
 import sidakejphes.nl.avans.edu.wherewasi.R;
 
-/**
- * Created by Jelle on 06-Apr-15.
- */
 public class SeriesAdapter extends AbstractSeriesAdapter {
 
     public SeriesAdapter(Context context) {
@@ -45,7 +39,6 @@ public class SeriesAdapter extends AbstractSeriesAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Serie> series = getSeries();
                 DetailFragment fragment = (DetailFragment) ((Activity) getContext()).getFragmentManager().findFragmentById(R.id.detailFragment);
                 if (fragment != null && fragment.isInLayout()) {
                     fragment.updateSerie(getSeries().get(position));

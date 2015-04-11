@@ -10,13 +10,9 @@ import android.widget.TextView;
 
 import sidakejphes.nl.avans.edu.fragments.TrackedDetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
-import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
 import sidakejphes.nl.avans.edu.wherewasi.R;
 import sidakejphes.nl.avans.edu.wherewasi.TrackedDetailActivity;
 
-/**
- * Created by Jelle on 06-Apr-15.
- */
 public class TrackedSeriesAdapter extends AbstractSeriesAdapter {
 
     private static TrackedSeriesAdapter instance;

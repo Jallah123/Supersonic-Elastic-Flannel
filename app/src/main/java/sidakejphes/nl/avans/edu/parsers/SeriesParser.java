@@ -1,8 +1,5 @@
 package sidakejphes.nl.avans.edu.parsers;
 
-/**
- * Created by Jelle on 18-3-2015.
- */
 import java.io.InputStream;
 import java.util.ArrayList;
 

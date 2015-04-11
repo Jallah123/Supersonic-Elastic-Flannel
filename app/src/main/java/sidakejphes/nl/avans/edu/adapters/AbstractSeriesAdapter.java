@@ -1,24 +1,13 @@
 package sidakejphes.nl.avans.edu.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
-import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
-import sidakejphes.nl.avans.edu.wherewasi.DetailActivity;
-import sidakejphes.nl.avans.edu.wherewasi.R;
 
-/**
- * Created by Jelle on 18-3-2015.
- */
 public abstract class AbstractSeriesAdapter extends BaseAdapter {
     private ArrayList<Serie> series;
     private Context context;

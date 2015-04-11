@@ -1,6 +1,5 @@
 package sidakejphes.nl.avans.edu.wherewasi;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
@@ -16,10 +15,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import sidakejphes.nl.avans.edu.adapters.TrackedSeriesAdapter;
-import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.fragments.TrackedDetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
-import sidakejphes.nl.avans.edu.wherewasi.R;
 
 public class TrackedDetailActivity extends ActionBarActivity {
 

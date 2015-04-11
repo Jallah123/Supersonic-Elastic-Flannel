@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import sidakejphes.nl.avans.edu.wherewasi.R;
 
-/**
- * Created by Jelle on 18-3-2015.
- */
 public class ListViewFragment extends Fragment {
 
     @Override

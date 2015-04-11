@@ -2,9 +2,6 @@ package sidakejphes.nl.avans.edu.models;
 
 import java.util.ArrayList;
 
-/**
- * Created by Jelle on 11-3-2015.
- */
 public class Serie {
 
     private String seriesid;

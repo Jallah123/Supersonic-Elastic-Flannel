@@ -43,6 +43,9 @@ public class TrackedDetailFragment extends Fragment {
                 break;
             }
         }
+        fillView(tempSerie);
+    }
+    private void fillView(Serie tempSerie){
         TextView seriesName = (TextView) getView().findViewById(R.id.tracked_detail_seriesName);
         seriesName.setText(tempSerie.getSeriesName());
         TextView amountOfSeasons = (TextView) getView().findViewById(R.id.tracked_seasons_amount);

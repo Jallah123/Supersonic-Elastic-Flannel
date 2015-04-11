@@ -1,11 +1,5 @@
 package sidakejphes.nl.avans.edu.parsers;
 
-/**
- * Created by Jelle on 18-3-2015.
- */
-
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import org.xml.sax.Attributes;

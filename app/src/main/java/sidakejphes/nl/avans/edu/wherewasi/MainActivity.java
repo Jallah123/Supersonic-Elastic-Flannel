@@ -1,6 +1,5 @@
 package sidakejphes.nl.avans.edu.wherewasi;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -22,9 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import sidakejphes.nl.avans.edu.adapters.AbstractSeriesAdapter;
 import sidakejphes.nl.avans.edu.adapters.SeriesAdapter;
-import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 import sidakejphes.nl.avans.edu.parsers.SeriesParser;
 

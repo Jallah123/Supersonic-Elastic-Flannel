@@ -20,9 +20,6 @@ import java.util.Set;
 import sidakejphes.nl.avans.edu.fragments.DetailFragment;
 import sidakejphes.nl.avans.edu.models.Serie;
 
-/**
- * Created by Jelle on 18-3-2015.
- */
 public class DetailActivity extends Activity {
 
     private SharedPreferences prefs;
