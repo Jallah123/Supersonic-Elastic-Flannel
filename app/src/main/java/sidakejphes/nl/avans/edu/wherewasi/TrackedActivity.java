@@ -3,9 +3,13 @@ package sidakejphes.nl.avans.edu.wherewasi;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,28 +27,61 @@ public class TrackedActivity extends ActionBarActivity {
 
     private SharedPreferences prefs;
     private Gson g = new Gson();
+    private EditText search;
+    private ArrayList<Serie> series;
+    private ArrayList<Serie> originalSeries;
+    private TrackedSeriesAdapter adapter = TrackedSeriesAdapter.getInstance(this);
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracked);
         prefs = getSharedPreferences("series", MODE_PRIVATE);
+        listView = (ListView) findViewById(R.id.trackedSeries);
         setTitle("Tracked Series");
         fillList();
+        listView.setAdapter(adapter);
+        adapter.setSeries(series);
+        search = (EditText) findViewById(R.id.searchText);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateListView(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void updateListView(String s){
+        series = (ArrayList<Serie>) originalSeries.clone();
+        for(int i=0;i<series.size();i++){
+            if(!series.get(i).getSeriesName().toLowerCase().contains(s.toLowerCase())){
+                series.remove(i);
+            }
+        }
+        adapter.setSeries(series);
+        adapter.notifyDataSetChanged();
     }
 
     private void fillList() {
-        ListView listView = (ListView) findViewById(R.id.trackedSeries);
-        TrackedSeriesAdapter adapter = TrackedSeriesAdapter.getInstance(this);
         Set<String> seriesSet = prefs.getStringSet("series", null);
-        ArrayList<Serie> series = new ArrayList<Serie>();
+        series = new ArrayList<Serie>();
         if (seriesSet != null) {
             for (String s : seriesSet) {
                 series.add(g.fromJson(s, Serie.class));
             }
         }
-        listView.setAdapter(adapter);
-        adapter.setSeries(series);
+        originalSeries = (ArrayList<Serie>) series.clone();
         adapter.notifyDataSetChanged();
     }
 

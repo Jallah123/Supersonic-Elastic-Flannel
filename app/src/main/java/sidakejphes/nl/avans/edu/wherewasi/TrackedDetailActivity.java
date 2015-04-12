@@ -23,7 +23,7 @@ public class TrackedDetailActivity extends ActionBarActivity {
     private SharedPreferences prefs;
     private Serie serie;
     private Gson g = new Gson();
-    TrackedSeriesAdapter adapter;
+    private TrackedSeriesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
